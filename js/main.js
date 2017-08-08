@@ -6,10 +6,12 @@ $(document).ready(function() {
             correctAnswers:["Soul Bossanova", "Danger", "Sharks with lasers beams on their heads", "Mr. Bigglesworth", "Carnies","Tom Cruise","What the World Needs Now"],
             results:[]
         };
+        /* Count of correct answers*/
         var count =0;
+        /* Used to index through both arrays, correct answers and user answers*/
         var progress =0;
          
-        // Animated show on load of the page
+        /* Animation on loading of the page*/
         this.loadQuiz = function(){
             $('.panel_one h1').show("drop",500,function(){
               $('.start_quiz').addClass("started",500)
@@ -17,13 +19,12 @@ $(document).ready(function() {
             $('.start_quiz').on("click",function(){
                 // Calling the function used to advance from one panel to the next
                 showPanel(1);
-
             });
         };
 
-        // Passing to the function the panel we want to show, which is the next one
+        /* Passing to the function the panel we want to show, which is the first one (1)*/
         this.showPanel = function(position){
-            // Targeting panel we want to hide, which is the previous one
+            // Targeting panel we want to hide, which is the previous one (-1)
             var current =  $('div[data-panel="'+ (position - 1) +'"]');
 
             current.find('.wrapper').animate({left:"-=100px",opacity:0},500,function(){
@@ -38,16 +39,42 @@ $(document).ready(function() {
                 listenNext();
             });
         };
-
+        
+        /* Getting the content of the panel we want to show (next) and animating it in*/
         this.showNext = function(next) {
-            // getting the content of the panel we want to show and animating it in
             var wrapper = next.find('.wrapper');
             wrapper.fadeIn('500', function(){
             manageOptions(next);
             
             });
         };
-        // function to manage the showing of answers in succession
+        
+        /* What to do when "submit" is clicked */
+        this.listenNext = function() {
+             /* The .off() is to address a bug that executes the click twice*/
+            $('.submit').off().on('click', function(){
+                var next = $(this).data('next');
+                if (validateSelection($(this))) {
+                    showPanel(next); 
+                    showProgress(next);
+                }
+            });
+        };
+        
+        /* Validating current panel (Has it been answered)*/
+        this.validateSelection = function($this){
+            var parent = $this.parents().eq(1);
+            if (parent.hasClass('valid')){
+                return true;
+            } else {
+                $('.error').fadeIn('300', function(){
+                    $(this).delay(1000).fadeOut('300');
+                });
+                return false; 
+            }
+        };
+          
+        /* Function to manage the showing of answers in succession */
         this.manageOptions = function(next){
             var options = next.find('.options');
             var childrens = options.find('div');
@@ -67,30 +94,6 @@ $(document).ready(function() {
             });
         };
 
-        this.listenNext = function() {
-            // The .off is to address a bug that executes the click twice.
-            $('.next_question').off().on('click', function(){
-                var next = $(this).data('next');
-                if (validateSelection($(this))) {
-                    showPanel(next); 
-                    showProgress(next);
-                }
-            });
-        };
-        
-        // If panel has "valid" class return true. If not show error message and do nothing
-        this.validateSelection = function($this){
-            var parent = $this.parents().eq(1);
-            if (parent.hasClass('valid')){
-                return true;
-            } else {
-                $('.error').fadeIn('300', function(){
-                    $(this).delay(1000).fadeOut('300');
-                });
-                return false; 
-            }
-        };
-
         /* Progress bar */
         this.showProgress = function(panel){
             // increment width of progress bar
@@ -103,7 +106,7 @@ $(document).ready(function() {
                 }
             });
             
-            
+        /* Checking for correct andwers and printing them in last panel */    
             if(settings.results[progress] == settings.correctAnswers[progress]){
                count++;
                 
