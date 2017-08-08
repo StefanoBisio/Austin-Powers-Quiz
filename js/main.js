@@ -3,13 +3,14 @@ $(document).ready(function() {
     (function startQuiz(){
         // Object to store answers
         this.settings  = {
-            correctAnswers:["Soul Bossanova", "Danger", "Sharks with freakin’ lasers beams on their heads", "Mr. Bigglesworth", "Carnies"],
+            correctAnswers:["Soul Bossanova", "Danger", "Sharks with lasers beams on their heads", "Mr. Bigglesworth", "Carnies","Tom Cruise","What the World Needs Now"],
             results:[]
         };
-
+        var count =0;
+        var progress =0;
+         
+        // Animated show on load of the page
         this.loadQuiz = function(){
-
-            // Animated show on load of the page
             $('.panel_one h1').show("drop",500,function(){
               $('.start_quiz').addClass("started",500)
             });
@@ -33,7 +34,7 @@ $(document).ready(function() {
                 next.removeClass('hidden');
                 // Function to hide current panel and show the next
                 showNext(next);
-                // 
+                // Function to show next panel
                 listenNext();
             });
         };
@@ -42,7 +43,8 @@ $(document).ready(function() {
             // getting the content of the panel we want to show and animating it in
             var wrapper = next.find('.wrapper');
             wrapper.fadeIn('500', function(){
-                manageOptions(next)
+            manageOptions(next);
+            
             });
         };
         // function to manage the showing of answers in succession
@@ -73,9 +75,9 @@ $(document).ready(function() {
                     showPanel(next); 
                     showProgress(next);
                 }
-                
             });
         };
+        
         // If panel has "valid" class return true. If not show error message and do nothing
         this.validateSelection = function($this){
             var parent = $this.parents().eq(1);
@@ -89,20 +91,32 @@ $(document).ready(function() {
             }
         };
 
+        /* Progress bar */
         this.showProgress = function(panel){
             // increment width of progress bar
-            $('.progress .bar').animate({"width": "+=20%"},500);
-            // When we click on Next Quesion (line 69), the $this will be the next set of answers, that is why 'panel' has -1
+            $('.progress .bar').animate({"width": "+=14.28%"},500);
+            // When we click on Submit, the $this will be THE NEXT set of answers, that is why 'panel' has a -1
             var options = $('div[data-panel="'+ (panel -1) +'"]').find('.options');
             options.find('div').each(function(i,el){
                 if($(this).hasClass('active')){
                     settings.results.push($(this).text());
-                    console.log(settings.results);
                 }
             });
+            
+            
+            if(settings.results[progress] == settings.correctAnswers[progress]){
+               count++;
+                
+            }
+                progress++;
+                $('#rightCounter').text("");
+                $('#rightCounter').text(count);
+                
+            
         };
-
+            
         loadQuiz();
-    })();
+        
+    })(); /* End of startQuiz */
 
-});
+}); /* Ready */

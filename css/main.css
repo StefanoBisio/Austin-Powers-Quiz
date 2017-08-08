@@ -1,6 +1,8 @@
 body{
     font-family: Roboto, 'arial';
     margin:0;
+    background-image: url(../img/flowerpower.jpg);
+    background-size: cover;
 }
 
 .hidden {
@@ -24,6 +26,14 @@ body{
     transform: translate(-50%, -50%);
     text-align: center;
     width: 250px;
+    padding: 30px;
+    border: 8px solid white;
+    border-radius: 50px;
+    background-color: white;
+    box-shadow: 10px 10px 20px #000000;
+    
+   
+    
 }
 
 .start_quiz {
@@ -44,7 +54,11 @@ body{
 .panel_two .wrapper,
 .panel_three .wrapper,
 .panel_four .wrapper,
-.panel_five  .wrapper {
+.panel_five .wrapper,
+.panel_six .wrapper,
+.panel_seven .wrapper,
+.panel_eight .wrapper,
+.panel_nine  .wrapper {
     display:none;
 }
 
@@ -82,13 +96,18 @@ body{
 /* PROGRESS AND ERROR */
 
 .error {
-    position: fixed;
-    bottom: 13px;
-    width: 100%;
-    color: #F44336;
-    font-weight: bold;
-    text-align: center;
     display: none;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 250px;
+    padding: 10px;
+    border: 8px solid white;
+    border-radius: 50px;
+    background-color: white;
+    box-shadow: 10px 10px 20px #000000
 }
 
 .progress {
